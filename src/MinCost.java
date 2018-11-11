@@ -3,6 +3,7 @@ import com.google.ortools.graph.MinCostFlowBase;
 import com.google.ortools.linearsolver.MPSolver;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 
 public class MinCost {
@@ -11,7 +12,7 @@ public class MinCost {
         int id;
         int supply;
         LinkedList<Edge> edges = new LinkedList<Edge>();
-        Node addEdgeTo(Node n, int cap, int cst)
+        Node addEdgeTo(Node n, int cap, long cst)
         {
             Edge e=new Edge(cap,cst);
             edges.add(e);
@@ -29,9 +30,10 @@ public class MinCost {
         }
     }
     static class Edge {
-        int capacity,cost;
+        int capacity;
+        long cost;
         Node fromNode,toNode;
-        Edge(int cap, int cst) {
+        Edge(int cap, long cst) {
             this.capacity=cap;
             this.cost = cst;
         }
@@ -79,6 +81,35 @@ public class MinCost {
             nodes.forEach(node -> {
                 minCostFlow.setNodeSupply(node.id,node.supply);
             });
+        }
+        public void printoutEx(MinCostFlow minCostFlow, HashMap<Integer, String> nameMap)
+        {
+            long optimalCost = minCostFlow.getOptimalCost();
+            System.out.println("Minimum cost: " + optimalCost);
+            System.out.println("");
+            System.out.println(" Edge   Flow / Capacity  Cost");
+            int numArcs = minCostFlow.getNumArcs();
+            for (int i = 0; i < numArcs; ++i)
+            {
+                long cost = minCostFlow.getFlow(i) * minCostFlow.getUnitCost(i);
+                var flow1= minCostFlow.getFlow(i);
+                if (flow1==0) continue;
+                var id1= minCostFlow.getTail(i);
+                String name1 = String.valueOf(id1);
+                if (nameMap.containsKey(id1))
+                    name1= nameMap.get(id1);
+                var id2=minCostFlow.getHead(i);
+                String name2 = String.valueOf(id2);
+                if (nameMap.containsKey(id2))
+                    name2= nameMap.get(id2);
+
+                System.out.println(name1 + " -> " +
+                        name2 + "  " +
+                        String.format("%3d",  flow1)
+                        + "  / " +
+                        String.format("%3d",  minCostFlow.getCapacity(i)) + "       " +
+                        String.format("%3d",  cost));
+            }
         }
         public void printout(MinCostFlow minCostFlow)
         {
