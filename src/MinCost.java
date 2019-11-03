@@ -92,14 +92,14 @@ public class MinCost {
             for (int i = 0; i < numArcs; ++i)
             {
                 long cost = minCostFlow.getFlow(i) * minCostFlow.getUnitCost(i);
-                var flow1= minCostFlow.getFlow(i);
+                long flow1 = minCostFlow.getFlow(i);
                 if (flow1==0) continue;
-                var id1= minCostFlow.getTail(i);
+                int id1 = minCostFlow.getTail(i);
                 String name1 = String.valueOf(id1);
                 if (nameMap.containsKey(id1))
                     name1= nameMap.get(id1);
                 else if (!printAll) continue;
-                var id2=minCostFlow.getHead(i);
+                int id2 = minCostFlow.getHead(i);
                 String name2 = String.valueOf(id2);
                 if (nameMap.containsKey(id2))
                     name2= nameMap.get(id2);

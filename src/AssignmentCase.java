@@ -5,21 +5,21 @@ public class AssignmentCase {
     static { System.loadLibrary("jniortools"); }
     public static void main(String args[])
     {
-        var nm = new MinCost.NodeMaster();
-        var root = nm.addSupplyNode(4);
+        MinCost.NodeMaster nm = new MinCost.NodeMaster();
+        MinCost.Node root = nm.addSupplyNode(4);
 
-        var w1 = nm.addNode(2000);
-        var w2 = nm.addNode(2000);
-        var w3 = nm.addNode(2000);
-        var w4 = nm.addNode(2000);
+        MinCost.Node w1 = nm.addNode(2000);
+        MinCost.Node w2 = nm.addNode(2000);
+        MinCost.Node w3 = nm.addNode(2000);
+        MinCost.Node w4 = nm.addNode(2000);
         root    .addEdgeTo(w1,1,0)
                 .addEdgeTo(w2,1,0)
                 .addEdgeTo(w3,1,0)
                 .addEdgeTo(w4,1,0);
-        var t5 = nm.addNode(3000);
-        var t6 = nm.addNode(3000);
-        var t7 = nm.addNode(3000);
-        var t8 = nm.addNode(3000);
+        MinCost.Node t5 = nm.addNode(3000);
+        MinCost.Node t6 = nm.addNode(3000);
+        MinCost.Node t7 = nm.addNode(3000);
+        MinCost.Node t8 = nm.addNode(3000);
         w1
                 .addEdgeTo(t5,1,50)
                 .addEdgeTo(t6,1,76)
@@ -40,14 +40,14 @@ public class AssignmentCase {
                 .addEdgeTo(t6,1,110)
                 .addEdgeTo(t7,1,95)
                 .addEdgeTo(t8,1,115);
-        var sink = nm.addDemandNode(4);
+        MinCost.Node sink = nm.addDemandNode(4);
         t5.addEdgeTo(sink,1,0);
         t6.addEdgeTo(sink,1,0);
         t7.addEdgeTo(sink,1,0);
         t8.addEdgeTo(sink,1,0);
-        var minCostFlow = new MinCostFlow();
+        MinCostFlow minCostFlow = new MinCostFlow();
         nm.prepare(minCostFlow);
-        var status = minCostFlow.solve();
+        MinCostFlowBase.Status status = minCostFlow.solve();
         if (status == MinCostFlow.Status.OPTIMAL)
             nm.printout(minCostFlow);
         else

@@ -330,8 +330,8 @@ public class TeamAssignmentCase {
                     person.setNode(nm.addNode(10000));
                     nameMap.put(person.refNode.id, person.fullName);
         });
-        var root = nm.addSupplyNode(positions.size());
-        var sink = nm.addDemandNode(positions.size());
+        MinCost.Node root = nm.addSupplyNode(positions.size());
+        MinCost.Node sink = nm.addDemandNode(positions.size());
         persons.forEach(person ->
         {
            root.addEdgeTo(person.refNode,1,0);
@@ -355,7 +355,7 @@ public class TeamAssignmentCase {
     }
     public static void main(String args[])
     {
-        var me = new TeamAssignmentCase();
+        TeamAssignmentCase me = new TeamAssignmentCase();
         if (args.length < 2) {
             System.out.println("Error : invalid arguments, at least: A|B|T runidentifier");
         }
@@ -381,9 +381,9 @@ public class TeamAssignmentCase {
                 System.out.println("Error : invalid argument [0] => must be A or B, but it is "+args[0]);
                 return;
             }
-            var minCostFlow = new MinCostFlow();
-            var nm =  me.prepare(minCostFlow);
-            var status = minCostFlow.solve();
+            MinCostFlow minCostFlow = new MinCostFlow();
+            MinCost.NodeMaster nm = me.prepare(minCostFlow);
+            MinCostFlowBase.Status status = minCostFlow.solve();
             if (status == MinCostFlow.Status.OPTIMAL)
                 nm.printoutEx(minCostFlow,me.nameMap,false);
             else
