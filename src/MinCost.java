@@ -82,7 +82,7 @@ public class MinCost {
                 minCostFlow.setNodeSupply(node.id,node.supply);
             });
         }
-        public void printoutEx(MinCostFlow minCostFlow, HashMap<Integer, String> nameMap)
+        public void printoutEx(MinCostFlow minCostFlow, HashMap<Integer, String> nameMap, boolean printAll)
         {
             long optimalCost = minCostFlow.getOptimalCost();
             System.out.println("Minimum cost: " + optimalCost);
@@ -98,16 +98,14 @@ public class MinCost {
                 String name1 = String.valueOf(id1);
                 if (nameMap.containsKey(id1))
                     name1= nameMap.get(id1);
+                else if (!printAll) continue;
                 var id2=minCostFlow.getHead(i);
                 String name2 = String.valueOf(id2);
                 if (nameMap.containsKey(id2))
                     name2= nameMap.get(id2);
-
-                System.out.println(name1 + " -> " +
-                        name2 + "  " +
-                        String.format("%3d",  flow1)
-                        + "  / " +
-                        String.format("%3d",  minCostFlow.getCapacity(i)) + "       " +
+                else if (!printAll) continue;
+                System.out.println(name1 + "," +
+                        name2 + "," +
                         String.format("%3d",  cost));
             }
         }
